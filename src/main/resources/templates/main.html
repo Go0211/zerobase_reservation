@@ -5,6 +5,23 @@
     <title>Title</title>
 </head>
 <body>
- ok
+<div th:if="${usersData.getUserRole().equals('USER')}">
+<!-- 매장 검색창-->
+<!-- 상세창 + 예약-->
+<!-- 리뷰-->
+</div>
+<div th:unless="${usersData.getUserRole().equals('USER')}">
+    <span th:if="${usersData.getPartner().equals('NO')}">
+        <a th:href="@{/join-partner}">파트너 가입</a>
+    </span>
+    <span th:if="${usersData.getPartner().equals('YES')}">
+        <a th:href="@{/store/register}">상점등록</a>
+    </span>
+    <a href="">리뷰</a>
+
+    <div th:each="sList : ${storeList}">
+        <a th:href="@{/store/update(id=${sList.id})}" th:text="${sList.name}"></a>
+    </div>
+</div>
 </body>
 </html>

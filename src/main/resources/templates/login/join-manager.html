@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/users/login}"  th:object="${request}" method="post" >
+<form th:action="@{/join}" th:object="${request}" method="post" >
     <table class="table">
         <tbody>
         <tr>
@@ -15,6 +15,13 @@
         <tr>
             <td>비밀번호</td>
             <td><input type="text" name="password"></td>
+        </tr>
+        <tr>
+            <td>이름</td>
+            <td><input type="text" name="name"></td>
+        </tr>
+        <tr style="display: none">
+            <td><input type="text" name="userRole" value="manager"></td>
         </tr>
         </tbody>
         <button type="submit">등록</button>

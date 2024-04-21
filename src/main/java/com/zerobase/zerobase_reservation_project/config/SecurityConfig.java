@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration
-public class SecurityConfig{
+public class SecurityConfig {
     @Bean
     public static BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -32,14 +32,23 @@ public class SecurityConfig{
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers("/users/login","/users/join",  "/users/join-user", "/users/join-manager").permitAll()
+                        request.requestMatchers("/login", "/join",
+                                        "/join-user", "/join-manager").permitAll()
                                 .requestMatchers("/users/info").hasRole("USER")
+                                .requestMatchers("/store/**").hasRole("MANAGER")
+                                .anyRequest().authenticated()
+
                 )
                 .formLogin(login ->
-                        login.loginPage("/users/login")
+                        login.loginPage("/login")
                                 .usernameParameter("email")
                                 .passwordParameter("password")
-                                .defaultSuccessUrl("/users/info")
+                                .defaultSuccessUrl("/")
+                                .permitAll()
+                )
+                .logout(logout ->
+                        logout.logoutUrl("/logout")
+                                .logoutSuccessUrl("/login")
                                 .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll).build();
