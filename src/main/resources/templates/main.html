@@ -21,6 +21,7 @@
 
     <div th:each="sList : ${storeList}">
         <a th:href="@{/store/update(id=${sList.id})}" th:text="${sList.name}"></a>
+        <a th:href="@{/store/delete(id=${sList.id})}"> 삭제 </a>
     </div>
 </div>
 </body>

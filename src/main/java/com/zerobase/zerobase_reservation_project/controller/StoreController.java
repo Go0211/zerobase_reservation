@@ -47,4 +47,11 @@ public class StoreController {
 
         return "redirect:/";
     }
+
+    @GetMapping ("/delete")
+    public String storeDelete(@RequestParam("id") Long id) {
+        storeService.deleteStore(id);
+
+        return "redirect:/";
+    }
 }

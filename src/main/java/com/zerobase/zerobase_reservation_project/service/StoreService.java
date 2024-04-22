@@ -59,4 +59,8 @@ public class StoreService {
         return storeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("not have store"));
     }
+
+    public void deleteStore(Long id) {
+        storeRepository.delete(getStore(id));
+    }
 }
