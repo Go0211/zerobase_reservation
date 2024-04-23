@@ -1,14 +1,18 @@
 package com.zerobase.zerobase_reservation_project.service;
 
 import com.zerobase.zerobase_reservation_project.dto.StoreDto;
+import com.zerobase.zerobase_reservation_project.entity.Reserve;
 import com.zerobase.zerobase_reservation_project.entity.Store;
 import com.zerobase.zerobase_reservation_project.entity.Users;
+import com.zerobase.zerobase_reservation_project.repository.ReserveRepository;
 import com.zerobase.zerobase_reservation_project.repository.StoreRepository;
 import com.zerobase.zerobase_reservation_project.repository.UsersRepository;
 import com.zerobase.zerobase_reservation_project.type.Partner;
+import com.zerobase.zerobase_reservation_project.type.UseReserve;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +21,8 @@ import java.util.Optional;
 public class StoreService {
     private final StoreRepository storeRepository;
     private final UsersRepository usersRepository;
+
+    private final ReserveRepository reserveRepository;
 
     public boolean insertStore(StoreDto.Request request, String email) {
         Optional<Store> optStore = storeRepository
@@ -62,5 +68,30 @@ public class StoreService {
 
     public void deleteStore(Long id) {
         storeRepository.delete(getStore(id));
+    }
+
+    public List<Store> getSearchStoreList(String category, String text) {
+        if (category.equals("storeName")) {
+            return storeRepository.findAllByName(text);
+        } else if (category.equals("location")) {
+            return storeRepository.findAllByLocation(text);
+        } else {
+            return null;
+        }
+    }
+
+    public List<Store> getAllStoreList() {
+        return storeRepository.findAll();
+    }
+
+    public void insertStoreReserve(Long id, LocalDateTime datetime, String email) {
+        reserveRepository.save(Reserve.builder()
+                .reserveTime(datetime)
+                        .useReserve(UseReserve.NOT_USE)
+                        .users(usersRepository.findByEmail(email).orElseThrow(
+                                () -> new IllegalArgumentException("not have email")
+                        ))
+                        .store(getStore(id))
+                .build());
     }
 }

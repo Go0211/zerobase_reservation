@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
     Optional<Store> findByName(String name);
-
     List<Store> findAllByUsers(Users users);
+
+    List<Store> findAllByLocation(String location);
+    List<Store> findAllByName(String name);
 }

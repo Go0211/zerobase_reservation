@@ -1,12 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <div th:if="${usersData.getUserRole().equals('USER')}">
-<!-- 매장 검색창-->
+    <form th:action="@{/}" method="post" >
+        <select id="sel" name="category">
+            <option value="storeName">가게이름</option>
+            <option value="location">장소</option>
+        </select>
+        <input type="text" name="text" id="searchValue">
+        <button type="submit" id="searchBtn">검색</button>
+    </form>
+    <div>
+        <span>id</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>가게이름</span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <span>예약</span>
+    </div>
+    <div th:each="searchList : ${searchStoreList}">
+        <span th:text="${searchListStat.index + 1}"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a th:href="@{/store/detail(id=${searchList.id})}" th:text="${searchList.name}"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a th:href="@{/store/reserve(id=${searchList.id})}" >예약</a>
+    </div>
 <!-- 상세창 + 예약-->
 <!-- 리뷰-->
 </div>

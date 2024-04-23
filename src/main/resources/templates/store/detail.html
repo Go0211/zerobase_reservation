@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <span>가게이름</span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span>지역</span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span>설명</span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span>예약</span>&nbsp;&nbsp;&nbsp;&nbsp;
+</div>
+<div>
+    <span th:text="${store.name}"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span th:text="${store.location}"></span>
+    <span th:text="${store.description}"></span>
+    <a th:href="@{/store/reserve(id=${store.id})}" >예약</a>
+</div>
+</body>
+</html>

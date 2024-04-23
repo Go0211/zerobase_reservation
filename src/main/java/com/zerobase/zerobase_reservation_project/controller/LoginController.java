@@ -6,12 +6,11 @@ import com.zerobase.zerobase_reservation_project.security.UsersDetail;
 import com.zerobase.zerobase_reservation_project.service.StoreService;
 import com.zerobase.zerobase_reservation_project.service.UsersService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -22,13 +21,22 @@ public class LoginController {
     private final UsersService usersService;
     private final StoreService storeService;
 
-    @GetMapping("/")
-    public String main(Model model, Principal principal) {
-        UsersDto.Response response = usersService.getUsersData(principal.getName());
-        List<Store> storeList = storeService.getStoreList(principal.getName());
+    @RequestMapping("/")
+    public String main(Model model, Authentication authentication,
+                       @RequestParam(value = "category", required = false) String category,
+                       @RequestParam(value = "text", required = false) String text) {
+        UsersDto.Response response = usersService.getUsersData(authentication.getName());
+        List<Store> storeList = storeService.getStoreList(authentication.getName());
+        List<Store> searchStoreList;
+        if (text == null || text.equals("")) {
+            searchStoreList = storeService.getAllStoreList();
+        } else {
+            searchStoreList = storeService.getSearchStoreList(category, text);
+        }
 
         model.addAttribute("usersData", response);
         model.addAttribute("storeList", storeList);
+        model.addAttribute("searchStoreList", searchStoreList);
 
         return "main";
     }

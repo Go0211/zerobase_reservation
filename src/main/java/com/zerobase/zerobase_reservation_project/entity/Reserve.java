@@ -7,13 +7,13 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "reservation")
+@Table(name = "reserve")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Reservation {
+public class Reserve {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +21,6 @@ public class Reservation {
 
     @Column(name = "reserve_time")
     LocalDateTime reserveTime;
-
-    @Column(name = "request_time")
-    LocalDateTime requestTime;
-
-    @Column(name = "confirm_reserve_time")
-    LocalDateTime confirmTime;
 
     @Column(name = "use")
     UseReserve useReserve;
