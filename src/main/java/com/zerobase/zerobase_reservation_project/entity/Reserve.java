@@ -23,6 +23,7 @@ public class Reserve {
     LocalDateTime reserveTime;
 
     @Column(name = "use")
+    @Enumerated(EnumType.STRING)
     UseReserve useReserve;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -45,16 +45,16 @@ public class UsersService implements UserDetailsService {
     }
 
     @Transactional
-    public boolean join(UsersDto.Request response) {
-        response.setPassword(passwordEncoder.encode(response.getPassword()));
-        Users users = UsersDto.Request.toEntity(response);
+    public Users join(UsersDto.Request request) {
+        request.setPassword(passwordEncoder.encode(request.getPassword()));
+        Users users = UsersDto.Request.toEntity(request);
 
         if (usersRepository.findByEmail(users.getEmail()).isPresent()) {
-            return false;
+            return null;
         }
 
         usersRepository.save(users);
-        return true;
+        return users;
     }
 
     @Transactional
@@ -65,11 +65,16 @@ public class UsersService implements UserDetailsService {
         return UsersDto.Response.toDto(users);
     }
 
-    public void joinPartner(String email) {
-        Users users = usersRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("not have user"));
+    public boolean joinPartner(String email) {
+        Optional<Users> optUsers = usersRepository.findByEmail(email);
 
+        if (!optUsers.isPresent()) {
+            return false;
+        }
+
+        Users users = optUsers.get();
         users.setPartner(Partner.YES);
         usersRepository.save(users);
+        return true;
     }
 }

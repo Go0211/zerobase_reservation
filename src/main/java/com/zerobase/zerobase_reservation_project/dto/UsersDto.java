@@ -3,14 +3,17 @@ package com.zerobase.zerobase_reservation_project.dto;
 import com.zerobase.zerobase_reservation_project.entity.Users;
 import com.zerobase.zerobase_reservation_project.type.Partner;
 import com.zerobase.zerobase_reservation_project.type.UsersRole;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springdoc.core.annotations.ParameterObject;
 
 public class UsersDto{
 
     @Getter
     @Setter
+    @ParameterObject
     public static class Request {
         private String email;
         private String password;
@@ -38,6 +41,7 @@ public class UsersDto{
 
     @Getter
     @Setter
+    @ParameterObject
     @Builder
     public static class Response {
         private String email;

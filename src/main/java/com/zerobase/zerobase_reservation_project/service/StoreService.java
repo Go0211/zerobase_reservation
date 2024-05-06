@@ -12,7 +12,6 @@ import com.zerobase.zerobase_reservation_project.type.UseReserve;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,16 +81,5 @@ public class StoreService {
 
     public List<Store> getAllStoreList() {
         return storeRepository.findAll();
-    }
-
-    public void insertStoreReserve(Long id, LocalDateTime datetime, String email) {
-        reserveRepository.save(Reserve.builder()
-                .reserveTime(datetime)
-                        .useReserve(UseReserve.NOT_USE)
-                        .users(usersRepository.findByEmail(email).orElseThrow(
-                                () -> new IllegalArgumentException("not have email")
-                        ))
-                        .store(getStore(id))
-                .build());
     }
 }
